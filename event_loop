@@ -21,4 +21,5 @@ main() {
   Future(() => print('12'));
   scheduleMicrotask(() => print('5'));
   print('2');
+  
 }
