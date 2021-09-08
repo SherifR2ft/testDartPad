@@ -1,0 +1,24 @@
+import 'dart:async';
+
+main() {
+  print('1');
+
+  scheduleMicrotask(() => print('3'));
+
+  Future.delayed(new Duration(seconds: 1), () => print('16'));
+
+  Future(() => print('6')).then((_) => print('7')).then((_) {
+    print('8');
+    scheduleMicrotask(() => print('10'));
+  }).then((_) => print('9'));
+
+  scheduleMicrotask(() => print('4'));
+  scheduleMicrotask(() => Future(() => print('13')));
+
+  Future(() => print('11'))
+      .then((_) => new Future(() => print('14')))
+      .then((_) => print('15'));
+  Future(() => print('12'));
+  scheduleMicrotask(() => print('5'));
+  print('2');
+}
