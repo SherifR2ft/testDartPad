@@ -1,25 +1,36 @@
 import 'dart:async';
 
-main() {
-  print('1');
+void main(List<String> arguments) {
+  
+  Future.value(3).then(print);
 
-  scheduleMicrotask(() => print('3'));
+  Future.sync(() => 4).then(print);
+  Future.sync(() => Future(() => 9)).then(print);
 
-  Future.delayed(new Duration(seconds: 1), () => print('16'));
+  Future.microtask(() => 5).then(print);
+  Future.microtask(() => Future(() => 17)).then(print);
+    print('1');
 
-  Future(() => print('6')).then((_) => print('7')).then((_) {
-    print('8');
-    scheduleMicrotask(() => print('10'));
-  }).then((_) => print('9'));
+  scheduleMicrotask(() => print('6 scheduleMicrotask'));
 
-  scheduleMicrotask(() => print('4'));
-  scheduleMicrotask(() => Future(() => print('13')));
+  Future.delayed(
+    Duration(seconds: 1), () => print('21'));
 
-  Future(() => print('11'))
-      .then((_) => new Future(() => print('14')))
-      .then((_) => print('15'));
-  Future(() => print('12'));
-  scheduleMicrotask(() => print('5'));
+  // important , before move to next Future finish micro and then before them
+  Future(() => print('10')).then((_) => print('11')).then((_) {
+    print('12');
+    scheduleMicrotask(() => print('14'));
+  }).then((_) => print('13'));
+
+  scheduleMicrotask(() => print('7'));
+  scheduleMicrotask(() => Future(() => print('18')));
+
+  Future(() => print('15'))
+      .then((_) => 
+            Future(() => print('19')))
+      .then((_) => print('20'));
+  Future(() => print('16'));
+  scheduleMicrotask(() => print('8'));
   print('2');
   
 }
