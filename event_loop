@@ -1,6 +1,11 @@
 import 'dart:async';
 
 void main(List<String> arguments) {
+
+  //first#print
+  //2#Future.value == Future.sync == Future.microtask == scheduleMicrotask
+  //before move to next Future finish micro and 2# before them
+  //last#Future.delayed
   
   Future.value(3).then(print);
 
